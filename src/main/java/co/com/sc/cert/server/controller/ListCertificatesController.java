@@ -1,11 +1,10 @@
 package co.com.sc.cert.server.controller;
 
-import co.com.sc.cert.server.model.WSResponse;
+import co.com.sc.cert.server.model.request.WSResponse;
 import co.com.sc.cert.server.model.entities.Certificates;
 import co.com.sc.cert.server.model.entities.Person;
 import co.com.sc.cert.server.model.request.Authentication;
 import co.com.sc.cert.server.model.request.CertDetails;
-import co.com.sc.cert.server.model.request.CertificateData;
 import co.com.sc.cert.server.model.request.ResultListCerts;
 import co.com.sc.cert.server.repository.CertificateRepository;
 import co.com.sc.cert.server.repository.PersonRepository;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.security.KeyStore;
-import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.util.List;
 

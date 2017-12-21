@@ -1,6 +1,6 @@
 package co.com.sc.cert.server.controller;
 
-import co.com.sc.cert.server.model.WSResponse;
+import co.com.sc.cert.server.model.request.WSResponse;
 import co.com.sc.cert.server.model.request.Authentication;
 import co.com.sc.cert.server.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;

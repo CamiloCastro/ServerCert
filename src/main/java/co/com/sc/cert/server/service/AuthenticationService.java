@@ -1,6 +1,6 @@
 package co.com.sc.cert.server.service;
 
-import co.com.sc.cert.server.model.WSResponse;
+import co.com.sc.cert.server.model.request.WSResponse;
 import co.com.sc.cert.server.model.entities.Person;
 import co.com.sc.cert.server.model.request.Authentication;
 import co.com.sc.cert.server.repository.PersonRepository;

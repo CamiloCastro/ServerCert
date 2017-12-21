@@ -1,6 +1,5 @@
 package co.com.sc.cert.server.model.request;
 
-import co.com.sc.cert.server.model.WSResponse;
 import lombok.Data;
 import lombok.Getter;
 

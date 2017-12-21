@@ -1,5 +1,5 @@
 package co.com.sc.cert.server.controller;
 
-public class CeritifcateImportController
+public class CertificateImportController
 {
 }

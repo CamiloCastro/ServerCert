@@ -1,4 +1,4 @@
-package co.com.sc.cert.server.model;
+package co.com.sc.cert.server.model.request;
 
 import lombok.Data;
 
