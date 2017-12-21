@@ -7,6 +7,7 @@ import co.com.sc.cert.server.repository.CertificateRepository;
 import co.com.sc.cert.server.service.AuthenticationService;
 import co.com.sc.cert.server.util.S3Functions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +19,11 @@ import java.util.Optional;
 @RestController
 public class SignController
 {
+    @Value("${aws.access.key}")
+    String accessKey;
+
+    @Value("${aws.secret.key}")
+    String secretKey;
 
     @Autowired
     AuthenticationService authenticationService;
@@ -45,8 +51,12 @@ public class SignController
             byte[] cert = opt.get().getCert();
             byte[] pass = signRequest.getAuthentication().getPassword().getBytes(Charset.forName("UTF-8"));
 
-            S3Functions.uploadPrivateFile(signRequest.getCertFileName(), cert);
-            S3Functions.uploadPrivateFile(signRequest.getPassFileName(), pass);
+            S3Functions s3Functions = new S3Functions();
+            s3Functions.setAccessKey(accessKey);
+            s3Functions.setSecretKey(secretKey);
+            
+            s3Functions.uploadPrivateFile(signRequest.getCertFileName(), cert);
+            s3Functions.uploadPrivateFile(signRequest.getPassFileName(), pass);
 
             response.setMessage("Proceso de Firma terminado satisfactoriamente");
             response.setSuccessful(true);
