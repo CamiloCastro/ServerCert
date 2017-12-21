@@ -6,7 +6,6 @@ import lombok.Data;
 public class CertificateData
 {
     Authentication authentication;
-    String certName;
     String names;
     String lastNames;
     String email;
