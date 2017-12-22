@@ -1,9 +1,11 @@
 package co.com.sc.cert.server.controller;
 
 import co.com.sc.cert.server.model.entities.Certificates;
+import co.com.sc.cert.server.model.entities.Person;
 import co.com.sc.cert.server.model.request.SignRequest;
 import co.com.sc.cert.server.model.request.WSResponse;
 import co.com.sc.cert.server.repository.CertificateRepository;
+import co.com.sc.cert.server.repository.PersonRepository;
 import co.com.sc.cert.server.service.AuthenticationService;
 import co.com.sc.cert.server.util.S3Functions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class SignController
     @Autowired
     CertificateRepository certificateRepository;
 
+    @Autowired
+    PersonRepository personRepository;
+
     @RequestMapping(value = "/sign", method = RequestMethod.POST)
     public WSResponse loginUser(@RequestBody SignRequest signRequest)
     {
@@ -43,10 +48,11 @@ public class SignController
             if (signRequest.getIdCert() == null || signRequest.getCertFileName() == null || signRequest.getPassFileName() == null)
                 throw new Exception("Petición con datos incompletos");
 
-            Optional<Certificates> opt = certificateRepository.findById(signRequest.getIdCert());
+            Person p = personRepository.getOne(signRequest.getAuthentication().getUsername());
+            Optional<Certificates> opt = certificateRepository.findByIdAndPerson(signRequest.getIdCert(), p);
 
             if(!opt.isPresent())
-                throw new Exception("El certificado con el id " + signRequest.getIdCert() + " no existe.");
+                throw new Exception("El certificado con el id " + signRequest.getIdCert() + " no existe o no pertenece al usuario " + signRequest.getAuthentication().getUsername());
 
             byte[] cert = opt.get().getCert();
             byte[] pass = signRequest.getAuthentication().getPassword().getBytes(Charset.forName("UTF-8"));
@@ -54,7 +60,7 @@ public class SignController
             S3Functions s3Functions = new S3Functions();
             s3Functions.setAccessKey(accessKey);
             s3Functions.setSecretKey(secretKey);
-            
+
             s3Functions.uploadPrivateFile(signRequest.getCertFileName(), cert);
             s3Functions.uploadPrivateFile(signRequest.getPassFileName(), pass);
 

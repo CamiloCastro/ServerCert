@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface CertificateRepository extends JpaRepository<Certificates, Long>
 {
 
-    Optional<Certificates> findById(Long id);
+    Optional<Certificates> findByIdAndPerson(Long id, Person person);
 
     List<Certificates> findAllByPerson(Person person);
 
